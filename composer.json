@@ -3,7 +3,6 @@
   "type": "typo3-cms-extension",
   "description": "Prometheus integration for TYPO3",
   "version": "0.0.1",
-  "minimum-stability": "stable",
   "license": "GPL-2.0+",
   "keywords": ["typo3", "TYPO3 CMS", "prometheus", "metrics"],
   "authors": [
