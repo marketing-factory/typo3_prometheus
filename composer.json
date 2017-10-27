@@ -34,7 +34,7 @@
   },
   "autoload": {
     "psr-4": {
-      "MFC\\Prometheus\\": "Classes/"
+      "Mfc\\Prometheus\\": "Classes/"
     }
   }
 }
