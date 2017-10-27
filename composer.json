@@ -2,7 +2,6 @@
   "name": "mfc/prometheus",
   "type": "typo3-cms-extension",
   "description": "Prometheus integration for TYPO3",
-  "version": "0.0.1",
   "license": "GPL-2.0+",
   "keywords": ["typo3", "TYPO3 CMS", "prometheus", "metrics"],
   "authors": [
@@ -23,7 +22,7 @@
     "source": "https://github.com/marketing-factory/typo3_prometheus"
   },
   "require": {
-    "php": ">=5.6.7 <8.0",
+    "php": ">=5.6, <8.0",
     "typo3/cms-core": ">=7.6.23,<9.0"
   },
 
