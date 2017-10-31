@@ -34,4 +34,4 @@ header('Cache-Control: no-cache, must-revalidate');
 header('Pragma: no-cache');
 header('Content-Type: text/plain; charset=utf-8');
 
-echo $returnData;
+echo $returnData . PHP_EOL;
