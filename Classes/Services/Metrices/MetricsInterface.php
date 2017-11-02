@@ -1,22 +1,20 @@
 <?php
-namespace Mfc\MfcProductconfigurator\Service\Excludes;
+namespace Mfc\Prometheus\Services\Metrices;
 
 /**
- * Interface ExcludeInterface
+ * Interface MetricsInterface
  */
-interface ExcludeInterface
+interface MetricsInterface
 {
     /**
-     * @param array $settings
      *
-     * @return void
+     * @return string
      */
-    public function setSettings($settings);
+    public function getVelocity();
 
     /**
-     * @param array $variables
      *
-     * @return void
+     * @return array
      */
-    public function process(&$variables);
+    public function getMetricsValues();
 }

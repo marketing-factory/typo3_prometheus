@@ -8,7 +8,9 @@
 
 namespace Mfc\Prometheus\Domain\Repository;
 
-class MetricsRepository {
+
+class MetricsRepository extends BaseRepository
+{
 
 
     protected $tablename = 'prometheus_metrics';
@@ -31,12 +33,23 @@ class MetricsRepository {
 
     }
 
-
     /**
-     * @return \TYPO3\CMS\Core\Database\DatabaseConnection
+     * @param array $data
+     * @return void
      */
-    protected function getDatabaseConnection()
+    public function saveDataToDb($data)
     {
-        return $GLOBALS['TYPO3_DB'];
+        $query = $this->getDatabaseConnection()->INSERTmultipleRows(
+            $this->tablename,
+            ['metric_key', 'metric_value', 'tstamp'],
+            $data
+        );
+
+        $query = preg_replace('@INSERT INTO@', 'REPLACE INTO', $query);
+
+        $this->getDatabaseConnection()->sql_query(
+            $query
+        );
+
     }
 }
