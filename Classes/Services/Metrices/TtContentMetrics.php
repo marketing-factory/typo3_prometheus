@@ -5,7 +5,7 @@ use Mfc\Prometheus\Domain\Repository\TtContentRepository;
 
 class TtContentMetrics extends AbstractMetrics
 {
-    protected $velocity = 'fast';
+    protected $velocity = 'slow';
 
     public function getVelocity()
     {

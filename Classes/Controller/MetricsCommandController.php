@@ -41,7 +41,7 @@ class MetricsCommandController extends \TYPO3\CMS\Extbase\Mvc\Controller\Command
 
     protected function initializeMetrices($velocity = '')
     {
-        foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['prometheus']['metricesToMeasure'] as $singleMetrics) {
+        foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['prometheus']['metricesToMeasure'][$velocity] as $singleMetrics) {
             $metricsHelper = GeneralUtility::makeInstance($singleMetrics);
             if ($velocity != '' && $metricsHelper->getVelocity()) {
                 $this->metricesToWork[] = $metricsHelper;

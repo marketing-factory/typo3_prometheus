@@ -21,6 +21,14 @@ class TtContentRepository extends BaseRepository
                 $singleContentTypes['cType'].'"}';
             $data[$key] =
                 $singleContentTypes['count'];
+
+            $languageKey = 'typo3_tt_content_total{sys_language_uid="'. $singleContentTypes['sys_language_uid'] .'"}';
+            $typeKey = 'typo3_tt_content_total{cType="'. $singleContentTypes['cType'] .'"}';
+
+            $data[$languageKey] = $data[$languageKey] + $singleContentTypes['count'];
+            $data[$typeKey] = $data[$typeKey] + $singleContentTypes['count'];
+            $data['typo3_tt_content_total'] = $data['typo3_tt_content_total'] + $singleContentTypes['count'];
+
         }
 
         return $data;

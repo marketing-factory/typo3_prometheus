@@ -5,7 +5,7 @@ use Mfc\Prometheus\Domain\Repository\PageRepository;
 
 class PagesMetrics extends AbstractMetrics
 {
-    protected $velocity = 'fast';
+    protected $velocity = 'slow';
 
     public function getVelocity()
     {
