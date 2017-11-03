@@ -16,7 +16,7 @@ class PageRepository extends BaseRepository
         $pageOverlays = $this->getDatabaseConnection()->exec_SELECTgetRows(
             'count(uid) as count, sys_language_uid',
             'pages_language_overlay',
-            '1=1' . $this->getEnableFields('pages_language_overlay'),
+            'sys_language_uid > 0' . $this->getEnableFields('pages_language_overlay'),
             'sys_language_uid',
             'sys_language_uid asc',
             '',
