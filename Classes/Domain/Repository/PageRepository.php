@@ -25,14 +25,12 @@ class PageRepository extends BaseRepository
 
         if ($defaultPages !== false) {
             $data['typo3_pages_total{sys_language_uid="0"}'] = $defaultPages;
-            $data['typo3_pages_total'] = $defaultPages;
         }
 
 
         foreach ($pageOverlays as $singlePageLanguageKey => $singlePageLanguageKeyValues) {
             $data['typo3_pages_total{sys_language_uid="'. $singlePageLanguageKey .'"}'] =
                 $singlePageLanguageKeyValues['count'];
-            $data['typo3_pages_total'] = $data['typo3_pages_total'] + $singlePageLanguageKeyValues['count'];
         }
 
         return $data;
