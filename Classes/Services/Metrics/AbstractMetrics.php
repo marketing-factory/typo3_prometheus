@@ -1,5 +1,5 @@
 <?php
-namespace Mfc\Prometheus\Services\Metrices;
+namespace Mfc\Prometheus\Services\Metrics;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Object\ObjectManager;

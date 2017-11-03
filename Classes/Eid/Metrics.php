@@ -26,7 +26,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 $metricController = GeneralUtility::makeInstance(\Mfc\Prometheus\Domain\Repository\MetricsRepository::class);
 
-$returnData = implode(PHP_EOL, array_keys($metricController->getAllMetrices()));
+$returnData = implode(PHP_EOL, array_keys($metricController->getAllMetrics()));
 
 header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
 header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
