@@ -1,0 +1,2 @@
+	# cat=basic/enable/60; type=string; label=AllowedIpRanges (seperated with comma, range to set with mask (e.g. (127.0.0.1/32))
+allowedIpRanges = 127.0.0.1
