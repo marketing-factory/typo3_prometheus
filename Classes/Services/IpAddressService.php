@@ -15,14 +15,18 @@ class IpAddressService
             $address = $this->getCurrentIpAddress();
         }
 
-        $adressAllowed = false;
+        $addressAllowed = false;
 
         $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['prometheus']);
 
         if (isset($extConf['allowedIpRanges'])) {
-            $adressAllowed = GeneralUtility::cmpIPv4($address, $extConf['allowedIpRanges']);
+            if (GeneralUtility::validIPv4($address)) {
+                $addressAllowed = GeneralUtility::cmpIPv4($address, $extConf['allowedIpRanges']);
+            } elseif (GeneralUtility::validIPv6($address)) {
+                $addressAllowed = GeneralUtility::cmpIPv6($address, $extConf['allowedIpRanges']);
+            }
         }
-        return $adressAllowed;
+        return $addressAllowed;
     }
 
     /**
