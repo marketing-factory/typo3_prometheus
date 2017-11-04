@@ -16,6 +16,7 @@ $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['prometheus']['metricsToMeasure']['fast']
 $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['prometheus']['metricsToMeasure']['slow'] = [
     \Mfc\Prometheus\Services\Metrics\PagesMetrics::class,
     \Mfc\Prometheus\Services\Metrics\TtContentMetrics::class,
+    \Mfc\Prometheus\Services\Metrics\SysLogMetrics::class,
 ];
 
 $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['prometheus']['metricsToMeasure']['medium'] = [
