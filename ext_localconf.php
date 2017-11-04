@@ -9,6 +9,7 @@ $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['prometheus']['metricsToMeasure']['fast']
    \Mfc\Prometheus\Services\Metrics\BeSessionsMetrics::class,
    \Mfc\Prometheus\Services\Metrics\BeUsersMetrics::class,
    \Mfc\Prometheus\Services\Metrics\SysDomainMetrics::class,
+   \Mfc\Prometheus\Services\Metrics\SysLockedRecordsMetrics::class,
    \Mfc\Prometheus\Services\Metrics\CfCachePagesMetrics::class,
    \Mfc\Prometheus\Services\Metrics\CfCachePagesTagsMetrics::class,
 
