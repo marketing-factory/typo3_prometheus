@@ -5,7 +5,7 @@ use Mfc\Prometheus\Domain\Repository\SysLogRepository;
 
 class SysLogMetrics extends AbstractMetrics
 {
-    protected $velocity = 'slow';
+    protected $velocity = 'medium';
 
     public function getVelocity()
     {
