@@ -22,7 +22,7 @@ scrape_configs:
     # scheme defaults to 'http'.
     # scheme: 'https'
     static_configs:
-         - targets: [ 'WEBSITE' ]
+         - targets: [ 'VIRTUALHOSTNAME' ]
 
   - job_name: 'node'
     # Override the global default and scrape targets from this job every 5 seconds.
