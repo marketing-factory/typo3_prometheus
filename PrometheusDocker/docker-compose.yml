@@ -23,7 +23,6 @@ services:
       - 9090:9090
     networks:
       - back-tier
-      - front-tier 
     restart: always
     deploy:
       mode: global
@@ -53,14 +52,29 @@ services:
       - prometheus
     ports:
       - 3000:3000
+    expose:
+      - 3000
     volumes:
       - grafana_data:/var/lib/grafana
     environment:
       - 'GF_AUTH_ANONYMOUS_ENABLED=true'
+      - 'GF_AUTH_BASIC_ENABLED=false'
       # if you want to enable authentication and disable signup
       # remove line above and set following config
       #- 'GF_SECURITY_ADMIN_PASSWORD=foobar'
       #- 'GF_USERS_ALLOW_SIGN_UP=false'
+      - 'VIRTUAL_HOST=VIRTUALHOSTNAME'
+    networks:
+      - back-tier
+
+  proxy:
+    image: jwilder/nginx-proxy
+    volumes: 
+      - /path/to/dir/nginx/htpasswd:/etc/nginx/htpasswd
+      - /path/to/dir/nginx/certs:/etc/nginx/certs
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    ports:
+      - 4433:443
     networks:
       - back-tier
       - front-tier
