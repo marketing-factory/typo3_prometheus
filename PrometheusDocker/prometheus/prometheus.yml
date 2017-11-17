@@ -1,0 +1,31 @@
+# my global config
+global:
+  scrape_interval:     15s # By default, scrape targets every 15 seconds.
+  evaluation_interval: 15s # By default, scrape targets every 15 seconds.
+  # scrape_timeout is set to the global default (10s).
+
+  # Attach these labels to any time series or alerts when communicating with
+  # external systems (federation, remote storage, Alertmanager).
+  external_labels:
+      monitor: 'TYPO3'
+
+# A scrape configuration containing prometheus, node and TYPO3 instance:
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  - job_name: 'prometheus'
+
+  - job_name: 'typo3'
+    # Override the global default and scrape targets from this job every 5 seconds.
+    scrape_interval: 15s
+    # metrics_path defaults to '/metrics'
+    metrics_path: '/?eID=prometheus_metrics'
+    # scheme defaults to 'http'.
+    # scheme: 'https'
+    static_configs:
+         - targets: [ 'WEBSITE' ]
+
+  - job_name: 'node'
+    # Override the global default and scrape targets from this job every 5 seconds.
+    scrape_interval: 5s
+    static_configs:
+         - targets: ['node-exporter:9100']
