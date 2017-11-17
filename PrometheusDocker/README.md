@@ -80,7 +80,9 @@ certificates match our hostname, so the proxy can automatically include the cert
 certificates installed, you should really get some now!):
 
 `~ mkdir /opt/PrometheusDocker/ssl`
+
 `~ cp ssl_certificate.www.example.de.cert /opt/PrometheusDocker/ssl/www.example.de.crt`
+
 `~ cp ssl_certificate.www.example.de.key /opt/PrometheusDocker/ssl/www.example.de.key`
 
 
@@ -122,6 +124,7 @@ Now we can start our docker swarm stack by issuing the following commands on our
 configuration directory `/opt/PrometheusDocker`:
 
 `~ docker swarm init`
+
 `~ docker stack deploy -c docker-compose.yml prometheus`
 
 
