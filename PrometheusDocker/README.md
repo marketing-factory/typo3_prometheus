@@ -3,9 +3,10 @@
 #### Table of Contents
 1. [Description - What does this configuration and why it is useful](#description)
 2. [Setup - The basics of getting started with prometheus](#setup)
-    * [What prometheus affects](#what-prometheus-affects)
+    * [What Prometheus affects](#what-prometheus-affects)
     * [Setup requirements](#setup-requirements)
-    * [Configuring prometheus](#configuring-prometheus)
+    * [Configuring Prometheus](#configuring-prometheus)
+    * [Configuring Grafana](#configuring-grafana)
 3. [Usage - Configuration options and additional functionality](#usage)
 4. [Reference](#reference)
 5. [Limitations](#limitations)
@@ -98,7 +99,7 @@ grafana:
     - 'VIRTUAL_HOST=www.example.org'
 ```
 
-Setup the paths to your htpasswd and ssl certificates you'll setup above: 
+Setup the paths to your htpasswd and ssl certificates we setup above: 
 ```
 proxy:
   .
@@ -127,4 +128,9 @@ configuration directory `/opt/PrometheusDocker`:
 
 `~ docker stack deploy -c docker-compose.yml prometheus`
 
+Now it should only take a couple of seconds till we have access to the Grafana Frontend via browser at
+`https://www.example.org:4433`. Once you've opened the page, we can finish the configuration by setting up a datasource 
+for the Grafana Frontend and adding our TYPO3 dashboard for displaying the metrics.  
+
+### Configuring Grafana
 
