@@ -7,9 +7,8 @@
     * [Setup requirements](#setup-requirements)
     * [Configuring Prometheus](#configuring-prometheus)
     * [Configuring Grafana](#configuring-grafana)
-3. [Usage - Configuration options and additional functionality](#usage)
-4. [Reference](#reference)
-5. [Limitations](#limitations)
+3. [Reference](#reference)
+4. [Limitations](#limitations)
 
 
 ## Description
@@ -72,19 +71,19 @@ First of all you should create a htpasswd file with the same name as the hostnam
 use this as an installation for one TYPO3 instance, you should set this to the domain which is used to access your TYPO3
 backend. In the following configuration, we will use `www.example.org` as our domain to access the TYPO3 Backend.
 
-`~ mkdir /opt/PrometheusDocker/htpasswd`
+`~ $ mkdir /opt/PrometheusDocker/htpasswd`
 
-`~ htpasswd -cb /opt/PrometheusDocker/htpasswd/www.example.org user password`
+`~ $ htpasswd -cb /opt/PrometheusDocker/htpasswd/www.example.org user password`
 
 Then we will copy the SSL Certificates, which are already present on our server. it is important, that the names for our 
 certificates match our hostname, so the proxy can automatically include the certificates (When you do not have any SSL
 certificates installed, you should really get some now!):
 
-`~ mkdir /opt/PrometheusDocker/ssl`
+`~ $ mkdir /opt/PrometheusDocker/ssl`
 
-`~ cp ssl_certificate.www.example.de.cert /opt/PrometheusDocker/ssl/www.example.de.crt`
+`~ $ cp ssl_certificate.www.example.de.cert /opt/PrometheusDocker/ssl/www.example.de.crt`
 
-`~ cp ssl_certificate.www.example.de.key /opt/PrometheusDocker/ssl/www.example.de.key`
+`~ $ cp ssl_certificate.www.example.de.key /opt/PrometheusDocker/ssl/www.example.de.key`
 
 
 By editing the file `docker-compose.yml` we configure our proxy service, which is responsible for SSL termination and
@@ -124,9 +123,9 @@ scrape_configs:
 Now we can start our docker swarm stack by issuing the following commands on our commandline from inside our 
 configuration directory `/opt/PrometheusDocker`:
 
-`~ docker swarm init`
+`~ $ docker swarm init`
 
-`~ docker stack deploy -c docker-compose.yml prometheus`
+`~ $ docker stack deploy -c docker-compose.yml prometheus`
 
 Now it should only take a couple of seconds till we have access to the Grafana Frontend via browser at
 `https://www.example.org:4433`. Once you've opened the page, we can finish the configuration by setting up a datasource 
@@ -134,3 +133,30 @@ for the Grafana Frontend and adding our TYPO3 dashboard for displaying the metri
 
 ### Configuring Grafana
 
+TODO: ADD screenshots and text:
+ - setup datasource
+ - import Dashboard
+ 
+### Reference
+
+#### Docker
+Home: https://docs.docker.com/
+
+#### Prometheus
+Home: https://prometheus.io/
+
+Docker Image: https://hub.docker.com/r/prom/prometheus/
+
+#### Grafana
+Home: https://grafana.com/
+
+Docker Image: https://hub.docker.com/r/grafana/grafana/
+
+#### Nginx
+Home: https://nginx.org/en/
+
+Docker Image: https://hub.docker.com/r/jwilder/nginx-proxy/
+
+## Limitations
+
+Currently there are no known limitations.
