@@ -153,11 +153,11 @@ displaying the metrics.
 To start the configuration, we need to login to Grafana. You can open the Login page with the following Url: 
 `https://www.example.org:4433/login` and login with the user `admin` and password `foobar`:
 
-![Login](/img/01_login.png?raw=true "Login")
+![Login](img/01_login.png?raw=true "Login")
 
 Then you should see the following screen:
 
-![Configuration overview](/img/02_config_overview.png?raw=true "Configuration overview")
+![Configuration overview](/PrometheusDocker/img/02_config_overview.png?raw=true "Configuration overview")
 
 After clicking on `Add data source`, we can enter the address of our prometheus installation, you should use the 
 following configuration values:
@@ -167,28 +167,28 @@ Type: `Prometheus`
 URL: `http://prometheus:9090`
 Access: `proxy`
 
-![Add datasource](/img/03_add_datasource.png?raw=true "Add datasource")
+![Add datasource](/PrometheusDocker/img/03_add_datasource.png?raw=true "Add datasource")
 
 After clicking on `add` you should see the following success message:
 
-![Add datasource success](/img/04_add_datasource_success.png?raw=true "Add datasource success")
+![Add datasource success](/PrometheusDocker/img/04_add_datasource_success.png?raw=true "Add datasource success")
 
 Now we can import the TYPO3 dashboard, which is delivered with this extension in the file `TYPO3_dashboard.json`. Just 
 open the file, and copy the json content to your clipboard. Then goto `Dashboard > Import`:
 
-![Goto_import_dashboard](/img/05_goto_import_dashboard.png?raw=true "Goto import dashboard")
+![Goto_import_dashboard](/PrometheusDocker/img/05_goto_import_dashboard.png?raw=true "Goto import dashboard")
 
 Then paste the json content into the appropriate field:
 
-![Import_dashboard](/img/06_import_dashboard.png?raw=true "Import dashboard")
+![Import_dashboard](/PrometheusDocker/img/06_import_dashboard.png?raw=true "Import dashboard")
 
 Setup the name for the dashboard, and finish importing:
 
-![Finish import_dashboard](/img/07_finish_import_dashboard.png?raw=true "Finish import dashboard")
+![Finish import_dashboard](/PrometheusDocker/img/07_finish_import_dashboard.png?raw=true "Finish import dashboard")
 
 Then you should see the Dashboard for your TYPO3 installation:
 
-![Dashboard](/img/08_dashboard.png?raw=true "Dashboard")
+![Dashboard](/PrometheusDocker/img/08_dashboard.png?raw=true "Dashboard")
 
  
 ### Reference
