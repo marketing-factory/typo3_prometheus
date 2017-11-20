@@ -6,6 +6,6 @@ CREATE TABLE prometheus_metrics (
     metric_value int(11) DEFAULT '0' NOT NULL,
     tstamp int(11) DEFAULT '0' NOT NULL,
 
-    KEY metric_key (metric_key(100)),
+    PRIMARY KEY metric_key (metric_key(100)),
     KEY tstamp (tstamp)
 ) ENGINE=InnoDB;
