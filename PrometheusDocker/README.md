@@ -98,6 +98,18 @@ grafana:
     - 'VIRTUAL_HOST=www.example.org'
 ```
 
+Also you want to setup an admin password for Grafana. You need to change the following line:
+```
+grafana:
+  .
+  .
+  environment:
+    .
+    .
+    - 'GF_SECURITY_ADMIN_PASSWORD=foobar'
+```
+
+
 Setup the paths to your htpasswd and ssl certificates we setup above: 
 ```
 proxy:
@@ -107,6 +119,10 @@ proxy:
     - /opt/PrometheusDocker/htpasswd:/etc/nginx/htpasswd
     - /opt/PrometheusDocker/ssl:/etc/nginx/certs
 ```
+
+
+
+
 
 Then we'll setup the scrape config for prometheus, so we'll get some metrics from our TYPO3 installation, by editing 
 `/opt/PrometheusDocker/prometheus/prometheus.yml`:

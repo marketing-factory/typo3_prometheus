@@ -60,9 +60,7 @@ services:
       - 'VIRTUAL_HOST=VIRTUALHOSTNAME'
       - 'GF_AUTH_ANONYMOUS_ENABLED=true'
       - 'GF_AUTH_BASIC_ENABLED=false'
-      # if you want to enable authentication and disable signup
-      # remove line above and set following config
-      #- 'GF_SECURITY_ADMIN_PASSWORD=foobar'
+      - 'GF_SECURITY_ADMIN_PASSWORD=foobar'
       #- 'GF_USERS_ALLOW_SIGN_UP=false'
     networks:
       - back-tier
