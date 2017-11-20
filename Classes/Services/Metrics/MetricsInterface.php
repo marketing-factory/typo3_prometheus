@@ -1,5 +1,5 @@
 <?php
-namespace Mfc\Prometheus\Services\Metrices;
+namespace Mfc\Prometheus\Services\Metrics;
 
 /**
  * Interface MetricsInterface

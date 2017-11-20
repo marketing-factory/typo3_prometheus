@@ -24,14 +24,22 @@
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-$metricController = GeneralUtility::makeInstance(\Mfc\Prometheus\Domain\Repository\MetricsRepository::class);
+$ipHelper = GeneralUtility::makeInstance(\Mfc\Prometheus\Services\IpAddressService::class);
 
-$returnData = implode(PHP_EOL, array_keys($metricController->getAllMetrices()));
+if ($ipHelper->ipInAllowedRange()) {
+    $metricController = GeneralUtility::makeInstance(\Mfc\Prometheus\Domain\Repository\MetricsRepository::class);
 
-header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
-header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
-header('Cache-Control: no-cache, must-revalidate');
-header('Pragma: no-cache');
-header('Content-Type: text/plain; charset=utf-8');
+    $returnData = implode(PHP_EOL, array_keys($metricController->getAllMetrics()));
 
-echo $returnData . PHP_EOL;
+    header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+    header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+    header('Cache-Control: no-cache, must-revalidate');
+    header('Pragma: no-cache');
+    header('Content-Type: text/plain; charset=utf-8');
+
+    echo $returnData . PHP_EOL;
+} else {
+    header('HTTP/1.0 403 Forbidden');
+}
+
+

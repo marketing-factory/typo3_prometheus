@@ -17,6 +17,6 @@ class BaseRepository
 
     protected function getEnableFields($table)
     {
-        return BackendUtility::BEenableFields($table);
+        return BackendUtility::BEenableFields($table) . BackendUtility::deleteClause($table);
     }
 }

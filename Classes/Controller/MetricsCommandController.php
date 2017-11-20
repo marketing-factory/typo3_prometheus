@@ -7,7 +7,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class MetricsCommandController extends \TYPO3\CMS\Extbase\Mvc\Controller\CommandController
 {
-    protected  $metricesToWork = [];
+    protected  $metricsToWork = [];
 
     /** @var MetricsRepository  */
     protected $metricsRepository;
@@ -17,34 +17,34 @@ class MetricsCommandController extends \TYPO3\CMS\Extbase\Mvc\Controller\Command
         $this->metricsRepository = GeneralUtility::makeInstance(MetricsRepository::class);
     }
 
-    public function generateAllFastMetricesCommand()
+    public function generateAllFastMetricsCommand()
     {
-        $this->initializeMetrices('fast');
+        $this->initializeMetrics('fast');
 
         $this->getValuesAndWriteToDb();
 
     }
 
-    public function generateAllSlowMetricesCommand()
+    public function generateAllSlowMetricsCommand()
     {
-        $this->initializeMetrices('slow');
+        $this->initializeMetrics('slow');
         $this->getValuesAndWriteToDb();
 
     }
 
-    public function generateAllMediumMetricesCommand()
+    public function generateAllMediumMetricsCommand()
     {
-        $this->initializeMetrices('medium');
+        $this->initializeMetrics('medium');
         $this->getValuesAndWriteToDb();
 
     }
 
-    protected function initializeMetrices($velocity = '')
+    protected function initializeMetrics($velocity = '')
     {
-        foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['prometheus']['metricesToMeasure'][$velocity] as $singleMetrics) {
+        foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['prometheus']['metricsToMeasure'][$velocity] as $singleMetrics) {
             $metricsHelper = GeneralUtility::makeInstance($singleMetrics);
             if ($velocity != '' && $metricsHelper->getVelocity()) {
-                $this->metricesToWork[] = $metricsHelper;
+                $this->metricsToWork[] = $metricsHelper;
             }
         }
 
@@ -53,7 +53,7 @@ class MetricsCommandController extends \TYPO3\CMS\Extbase\Mvc\Controller\Command
     protected function getValuesAndWriteToDb()
     {
 
-        foreach ($this->metricesToWork as $singleMetrics) {
+        foreach ($this->metricsToWork as $singleMetrics) {
             $dataToInsert = $singleMetrics->getMetricsValues();
             if (!empty($dataToInsert)) {
                 $this->metricsRepository->saveDataToDb($dataToInsert);

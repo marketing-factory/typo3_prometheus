@@ -19,7 +19,7 @@ class MetricsRepository extends BaseRepository
     /**
      * @return array
      */
-    public function getAllMetrices()
+    public function getAllMetrics()
     {
         return $this->getDatabaseConnection()->exec_SELECTgetRows(
             'concat(metric_key, \' \', metric_value) as row',
