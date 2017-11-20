@@ -26,15 +26,31 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class PrometheusController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
 
+
+
     /**
+     * Display Grafana Dashboard in TYPO3 BE
+     *
      */
     public function getGrafanaContentAction()
     {
+        $extconfig = $this->getExtConfig();
+        $dashboardUrl = $extconfig['grafanaDashboardUrl'];
+
         echo "
-            <iframe  src=\"$grafanaDashboardUrl\" width=\"100%\" height=\"100%\" class=\"prometheus\"/>
-            <script type=\"text/javascript\" language=\"javascript\"> 
-                $('.prometheus').css('height', $(window).height()+'px');
-            </script>
+            <iframe  src=\"$dashboardUrl\" width=\"100%\" height=\"100%\" class=\"prometheus\"/>
          ";
     }
+
+    /**
+     * Get Grafana Dashboard Url
+     *
+     * @return string URL
+     */
+    private function getExtConfig()
+    {
+        $extconfig = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['prometheus']);
+        return $extconfig;
+    }
+
 }
