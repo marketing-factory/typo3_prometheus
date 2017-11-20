@@ -58,10 +58,10 @@ Since you have to edit the configuration files for your prometheus server and fo
 recommend to copy this directory to a location outside of TYPO3. So you won't have any modified files inside the
 extension.
 
-For succesfully running the setup you will need to setup following configuration:
-- Location of your SSL Certificate
-- Location of a htpasswd file for securing the Dashboard Access
-- Hostname to use for accessing the Metrics Dashboard
+For succesfully running the setup you will need to have the following information:
+- Location of your SSL certificate
+- Location of a htpasswd file for securing the dashboard access
+- Hostname to use for accessing the metrics dashboard
 - Hostname of the TYPO3 installation (should be the same, except you are running this setup for multiple TYPO3 sites)
 
 In the following guide i will assume that you copied the configuration to  `/opt/PrometheusDocker`, when you chose any
@@ -144,14 +144,52 @@ configuration directory `/opt/PrometheusDocker`:
 `~ $ docker stack deploy -c docker-compose.yml prometheus`
 
 Now it should only take a couple of seconds till we have access to the Grafana Frontend via browser at
-`https://www.example.org:4433`. Once you've opened the page, we can finish the configuration by setting up a datasource 
-for the Grafana Frontend and adding our TYPO3 dashboard for displaying the metrics.  
+`https://www.example.org:4433`. Once you've opened the page and entered your credentials you've generated above, we can 
+finish the configuration by setting up a datasource for the Grafana Frontend and adding our TYPO3 dashboard for 
+displaying the metrics.  
 
 ### Configuring Grafana
 
-TODO: ADD screenshots and text:
- - setup datasource
- - import Dashboard
+To start the configuration, we need to login to Grafana. You can open the Login page with the following Url: 
+`https://www.example.org:4433/login` and login with the user `admin` and password `foobar`:
+
+![Login](/img/01_login.png?raw=true "Login")
+
+Then you should see the following screen:
+
+![Configuration overview](/img/02_config_overview.png?raw=true "Configuration overview")
+
+After clicking on `Add data source`, we can enter the address of our prometheus installation, you should use the 
+following configuration values:
+
+Name: `prometheus`
+Type: `Prometheus`
+URL: `http://prometheus:9090`
+Access: `proxy`
+
+![Add datasource](/img/03_add_datasource.png?raw=true "Add datasource")
+
+After clicking on `add` you should see the following success message:
+
+![Add datasource success](/img/04_add_datasource_success.png?raw=true "Add datasource success")
+
+Now we can import the TYPO3 dashboard, which is delivered with this extension in the file `TYPO3_dashboard.json`. Just 
+open the file, and copy the json content to your clipboard. Then goto `Dashboard > Import`:
+
+![Goto_import_dashboard](/img/05_goto_import_dashboard.png?raw=true "Goto import dashboard")
+
+Then paste the json content into the appropriate field:
+
+![Import_dashboard](/img/06_import_dashboard.png?raw=true "Import dashboard")
+
+Setup the name for the dashboard, and finish importing:
+
+![Finish import_dashboard](/img/07_finish_import_dashboard.png?raw=true "Finish import dashboard")
+
+Then you should see the Dashboard for your TYPO3 installation:
+
+![Dashboard](/img/08_dashboard.png?raw=true "Dashboard")
+
  
 ### Reference
 

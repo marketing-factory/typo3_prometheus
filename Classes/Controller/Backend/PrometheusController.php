@@ -43,9 +43,9 @@ class PrometheusController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionContr
     }
 
     /**
-     * Get Grafana Dashboard Url
+     * Get Extension Config
      *
-     * @return string URL
+     * @return array config
      */
     private function getExtConfig()
     {

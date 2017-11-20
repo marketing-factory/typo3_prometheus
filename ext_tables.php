@@ -9,9 +9,9 @@ if ($extconfig['showAdministrationModule'] == true) {
             if (TYPO3_MODE === 'BE') {
                 \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
                     'Mfc.prometheus',
-                    'tools', // Make module a submodule of 'tools'
-                    'prometheus', // Submodule key
-                    '', // Position
+                    'system',
+                    'prometheus',
+                    '',
                     [
                         'Backend\Prometheus' => 'getGrafanaContent'
                     ],
