@@ -190,6 +190,15 @@ Then you should see the Dashboard for your TYPO3 installation:
 
 ![Dashboard](/PrometheusDocker/img/08_dashboard.png?raw=true "Dashboard")
 
+### Configuring TYPO3
+
+Now you can enter the dashboard URL in the extension configuration, and activate the TYPO3 backend module:
+
+![Setup TYPO3](/PrometheusDocker/img/09_setup_typo3.png?raw=true "Setup TYPO3")
+
+Now you should see the module in the system category:
+
+![Open module](/PrometheusDocker/img/10_open_module.png?raw=true "Open module")
  
 ### Reference
 
