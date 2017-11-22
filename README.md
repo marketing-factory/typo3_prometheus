@@ -65,5 +65,5 @@ configure the IP address of your prometheus to have access to the metrics page.
 The metrics path is `http://example.org/?eID=prometheus_metrics`.
 
 ## Reference
-
+Talk at #T3EE17 https://www.slideshare.net/ischmittis/metrics-for-typo3
 
