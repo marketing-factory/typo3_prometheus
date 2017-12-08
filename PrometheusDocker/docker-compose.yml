@@ -58,9 +58,9 @@ services:
       - grafana_data:/var/lib/grafana
     environment:
       - 'VIRTUAL_HOST=VIRTUALHOSTNAME'
-      - 'GF_AUTH_ANONYMOUS_ENABLED=true'
       - 'GF_AUTH_BASIC_ENABLED=false'
       - 'GF_SECURITY_ADMIN_PASSWORD=foobar'
+      #- 'GF_AUTH_ANONYMOUS_ENABLED=true'
       #- 'GF_USERS_ALLOW_SIGN_UP=false'
     networks:
       - back-tier
@@ -68,7 +68,6 @@ services:
   proxy:
     image: jwilder/nginx-proxy
     volumes: 
-      - /path/to/dir/nginx/htpasswd:/etc/nginx/htpasswd
       - /path/to/dir/nginx/certs:/etc/nginx/certs
       - /var/run/docker.sock:/tmp/docker.sock:ro
     ports:

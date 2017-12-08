@@ -5,6 +5,7 @@
 2. [Setup - The basics of getting started with prometheus](#setup)
     * [What Prometheus affects](#what-prometheus-affects)
     * [Setup requirements](#setup-requirements)
+    * [Setup SSL Certificate](#setup-ssl-certificate)
     * [Configuring Prometheus](#configuring-prometheus)
     * [Configuring Grafana](#configuring-grafana)
 3. [Reference](#reference)
@@ -13,17 +14,15 @@
 
 ## Description
 
-If you do not have a central Prometheus server, you can follow this guide, to have a local Prometheus setup on your
+If you do not have a central Prometheus server, you can follow this guide, to setup a local Prometheus on your
 webserver for displaying metrics of your TYPO3 installation and the underlying server system. You can also use
 this configuration to setup a central prometheus server for monitoring multiple TYPO3 instances. 
 
-Inside this directory, you find all the needed configurations to run a local working Prometheus server, 
-a Grafana dashboard, an exporter for your system metrics and a proxy with SSL and authentication. 
+Inside this directory, you'll find all the needed configurations to run a local working Prometheus server, 
+a Grafana dashboard, an exporter for your system metrics and a proxy with SSL support. 
  
-The setup should not take longer than a couple of minutes. All you need is an installed and running docker daemon 
-and shell access on the target system. When you are already running your TYPO3 instance on a container orchestration 
-like docker swarm or kubernetes, you'll better take the configuration from the docker-compose.yml file and fit it the
-needs of your environment.
+The setup should'nt take longer than a couple of minutes. All you need is an installed and running docker daemon,
+shell access to the target system and a SSL certificate. 
     
 After setting all this up, you can integrate the dashboard seamlessly into your TYPO3 Backend with the Prometheus 
 backend module.
@@ -32,14 +31,13 @@ backend module.
 
 ### What prometheus affects
 
-When you run this setup to monitor one TYPO3 instance, the resource allocation should be low. We do not expect that
-there will be much cpu, memory and disk space or i/o resources needed. When you run this setup to monitor multiple 
+If you monitor only one TYPO3 instance, the resource allocation of Prometheus should be low. We do not expect that
+there will be much cpu, memory and disk space or i/o resources needed. When you want to monitor multiple TYPO3
 instances, the resource usage depends on the instance count - then you should carefully inspect the resource usage 
-and possibly consider to run this on dedicated machine.
+and possibly consider to run Prometheus on dedicated machine.
 
-All services will use non-standard ports, so you won't have any conflicts with your webserver, database or any other
-service which is exposing on a networking port. This Setup does not require root privileges, a user which has access
-to the docker daemon is sufficient.
+All services will use non-standard ports, so there will be no conflicts with your webserver, database or any other
+networking service. This Setup does not require root privileges, a user with access to the docker daemon is sufficient.
 
 ### Setup Requirements
 
@@ -49,35 +47,37 @@ You will need at least:
 - docker compose >= 1.10
 - shell access 
 - access to docker daemon
+- a SSL certificate (self-signed should be sufficient for testing, )
 
 We'll recommend to use the latest stable software versions of docker and docker compose.
 
+### Setup SSL Certificate
+If you don't have any SSL certificates installed for your TYPO3 backend, you should really get some now!
+
+If you already own a SSL certificate for your TYPO3 backend, and you are planning to run the Prometheus not on a 
+separate machine, you can reuse this certificate. Then you should set the hostname for the dashboard in the following 
+configuration to the same as your TYPO3 backend. 
+
+If you do not already have a SSL certificate for the hostname of the dashboard, you can generate a certificate by 
+yourself. For production use we'll recommend to have an officially signed certificate (i.e from letsencrypt):
+
+`~ $openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365`
+
 ### Configuring Prometheus
 
-Since you have to edit the configuration files for your prometheus server and for the docker swarm stack, we'll
-recommend to copy this directory to a location outside of TYPO3. So you won't have any modified files inside the
-extension.
+Since you have to edit the configuration files for prometheus and for the docker swarm stack, we'll recommend to copy
+this directory (`PrometheusDocker`) to a location outside of TYPO3.
 
-For succesfully running the setup you will need to have the following information:
+Before running the setup you have to have the following information:
 - Location of your SSL certificate
-- Location of a htpasswd file for securing the dashboard access
 - Hostname to use for accessing the metrics dashboard
-- Hostname of the TYPO3 installation (should be the same, except you are running this setup for multiple TYPO3 sites)
+- Hostname of the TYPO3 installation (should be the same, except you are running Prometheus on a separate machine)
 
-In the following guide i will assume that you copied the configuration to  `/opt/PrometheusDocker`, when you chose any
-other path, just modify your configuration accordingly. 
+In the following guide we'll assume that you copied the configuration to  `/opt/PrometheusDocker`, when you chose any
+other path, just modify the following configuration accordingly. 
 
-First of all you should create a htpasswd file with the same name as the hostname for the dashboard access.  When you'll
-use this as an installation for one TYPO3 instance, you should set this to the domain which is used to access your TYPO3
-backend. In the following configuration, we will use `www.example.org` as our domain to access the TYPO3 Backend.
-
-`~ $ mkdir /opt/PrometheusDocker/htpasswd`
-
-`~ $ htpasswd -cb /opt/PrometheusDocker/htpasswd/www.example.org user password`
-
-Then we will copy the SSL Certificates, which are already present on our server. it is important, that the names for our 
-certificates match our hostname, so the proxy can automatically include the certificates (When you do not have any SSL
-certificates installed, you should really get some now!):
+First you have to configure the SSL Certificates, which you've already setup above. It is important, that the names for 
+the certificates match the hostname, so the proxy can automatically include the certificates:
 
 `~ $ mkdir /opt/PrometheusDocker/ssl`
 
@@ -86,10 +86,10 @@ certificates installed, you should really get some now!):
 `~ $ cp ssl_certificate.www.example.de.key /opt/PrometheusDocker/ssl/www.example.de.key`
 
 
-By editing the file `docker-compose.yml` we configure our proxy service, which is responsible for SSL termination and
+By editing the file `docker-compose.yml` you configure the proxy service, which is responsible for SSL termination and
 password protected access to the metrics dashboard:
 
-Setup the hostname which we will use for the dashboard access to `www.example.org`: 
+Setup the hostname which you will use for the dashboard access to `www.example.org`: 
 ```
 grafana:
   .
@@ -110,21 +110,17 @@ grafana:
 ```
 
 
-Setup the paths to your htpasswd and ssl certificates we setup above: 
+Setup the paths to your ssl certificates you've configured above: 
 ```
 proxy:
   .
   .
   volumes: 
-    - /opt/PrometheusDocker/htpasswd:/etc/nginx/htpasswd
     - /opt/PrometheusDocker/ssl:/etc/nginx/certs
 ```
 
 
-
-
-
-Then we'll setup the scrape config for prometheus, so we'll get some metrics from our TYPO3 installation, by editing 
+Then you'll setup the scrape config for prometheus, so you'll get some metrics from our TYPO3 installation, by editing 
 `/opt/PrometheusDocker/prometheus/prometheus.yml`:
 
 ```
@@ -136,22 +132,22 @@ scrape_configs:
          - targets: [ 'www.example.org' ]
 ```
 
-Now we can start our docker swarm stack by issuing the following commands on our commandline from inside our 
+Now you can start our docker swarm stack by issuing the following commands on our commandline from inside our 
 configuration directory `/opt/PrometheusDocker`:
 
 `~ $ docker swarm init`
 
 `~ $ docker stack deploy -c docker-compose.yml prometheus`
 
-Now it should only take a couple of seconds till we have access to the Grafana Frontend via browser at
-`https://www.example.org:4433`. Once you've opened the page and entered your credentials you've generated above, we can 
+Now it should only take a couple of seconds till you have access to the Grafana Frontend via browser at
+`https://www.example.org:4433`. Once you've opened the page and entered your credentials you've generated above, you can 
 finish the configuration by setting up a datasource for the Grafana Frontend and adding our TYPO3 dashboard for 
 displaying the metrics.  
 
 ### Configuring Grafana
 
-To start the configuration, we need to login to Grafana. You can open the Login page with the following Url: 
-`https://www.example.org:4433/login` and login with the user `admin` and password `foobar`:
+To start the configuration, you need to login to Grafana. You can open the login page with the following url: 
+`https://www.example.org:4433/login` and login with the user `admin` and the password you configured above:
 
 ![Login](img/01_login.png?raw=true "Login")
 
@@ -159,7 +155,7 @@ Then you should see the following screen:
 
 ![Configuration overview](/PrometheusDocker/img/02_config_overview.png?raw=true "Configuration overview")
 
-After clicking on `Add data source`, we can enter the address of our prometheus installation, you should use the 
+After clicking on `Add data source`, you can enter the address of our prometheus installation, you should use the 
 following configuration values:
 
 Name: `prometheus`
@@ -173,8 +169,8 @@ After clicking on `add` you should see the following success message:
 
 ![Add datasource success](/PrometheusDocker/img/04_add_datasource_success.png?raw=true "Add datasource success")
 
-Now we can import the TYPO3 dashboard, which is delivered with this extension in the file `TYPO3_dashboard.json`. Just 
-open the file, and copy the json content to your clipboard. Then goto `Dashboard > Import`:
+Now you can import the TYPO3 dashboard, which is delivered with this extension in the file `TYPO3_dashboard.json`. Just 
+open the file, and copy the json content to your clipboard. Then go to `Dashboard > Import`:
 
 ![Goto_import_dashboard](/PrometheusDocker/img/05_goto_import_dashboard.png?raw=true "Goto import dashboard")
 

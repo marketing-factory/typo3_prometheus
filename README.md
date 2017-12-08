@@ -56,11 +56,11 @@ want to scrape the collected data.
 ### Beginning with prometheus
 
 We recommend using composer to install and update the extension. After installing and activating the extension in the
-TYPO3 Backend, please perform a database compare to create the prometheus table, in which al the output data is stored.
+TYPO3 Backend, please perform a database compare to create the prometheus table, in which all the output data is stored.
 
 You also need to configure the IP Range in the extension configuration inside the extension manager to restrict the view 
-on the metric data for 3rd parties. The default is only to allow access from your localhost. You need at least to
-configure the IP address of your prometheus to have access to the metrics page.
+on the metric data for 3rd parties. The default is to only allow access from localhost. You need at least to configure 
+the IP address of your prometheus to have access to the metrics page.
 
 The metrics path is `http://example.org/?eID=prometheus_metrics`.
 
