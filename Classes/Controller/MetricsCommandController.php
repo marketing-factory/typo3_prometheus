@@ -56,6 +56,7 @@ class MetricsCommandController extends \TYPO3\CMS\Extbase\Mvc\Controller\Command
         foreach ($this->metricsToWork as $singleMetrics) {
             $dataToInsert = $singleMetrics->getMetricsValues();
             if (!empty($dataToInsert)) {
+                $this->metricsRepository->deleteOldMetricData(array_keys($dataToInsert));
                 $this->metricsRepository->saveDataToDb($dataToInsert);
             }
         }

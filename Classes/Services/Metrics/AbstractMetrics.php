@@ -49,7 +49,7 @@ abstract class AbstractMetrics implements MetricsInterface
         $output = [];
 
         foreach ($data as $dataKey => $dataValue) {
-            $output[] = [$dataKey, $dataValue, $GLOBALS['EXEC_TIME']];
+            $output[$dataKey] = [$dataKey, $dataValue, $GLOBALS['EXEC_TIME']];
         }
 
         return $output;

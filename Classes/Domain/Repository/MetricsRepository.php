@@ -9,6 +9,8 @@
 namespace Mfc\Prometheus\Domain\Repository;
 
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 class MetricsRepository extends BaseRepository
 {
 
@@ -39,17 +41,19 @@ class MetricsRepository extends BaseRepository
      */
     public function saveDataToDb($data)
     {
-        $query = $this->getDatabaseConnection()->INSERTmultipleRows(
+        $this->getDatabaseConnection()->exec_INSERTmultipleRows(
             $this->tablename,
             ['metric_key', 'metric_value', 'tstamp'],
             $data
         );
 
-        $query = preg_replace('@INSERT INTO@', 'REPLACE INTO', $query);
+    }
 
-        $this->getDatabaseConnection()->sql_query(
-            $query
+    public function deleteOldMetricData($keys)
+    {
+        $this->getDatabaseConnection()->exec_DELETEquery(
+            $this->tablename,
+        'metric_key in (' . implode(',', $this->getDatabaseConnection()->fullQuoteArray($keys, $this->tablename)) .')'
         );
-
     }
 }
