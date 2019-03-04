@@ -12,6 +12,7 @@ $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['prometheus']['metricsToMeasure']['fast']
    \Mfc\Prometheus\Services\Metrics\SysLockedRecordsMetrics::class,
    \Mfc\Prometheus\Services\Metrics\CfCachePagesMetrics::class,
    \Mfc\Prometheus\Services\Metrics\CfCachePagesTagsMetrics::class,
+   \Mfc\Prometheus\Services\Metrics\PowermailMetrics::class,
 
 ];
 $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['prometheus']['metricsToMeasure']['slow'] = [
