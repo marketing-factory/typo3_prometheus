@@ -12,11 +12,11 @@ $EM_CONF['prometheus'] = array(
     'createDirs' => '',
     'modify_tables' => '',
     'clearCacheOnLoad' => 0,
-    'version' => '0.0.1',
+    'version' => '0.0.2',
     'constraints' => array(
         'depends' => array(
             'scheduler' => '',
-            'php' => '5.6.7',
+            'php' => '5.6.7-7.99.99',
             'typo3' => '7.6.23-8.99.99',
         ),
         'conflicts' => array(),
