@@ -1,38 +1,38 @@
 {
-  "name": "mfc/prometheus",
+  "name": "mfd/typo3-prometheus",
   "type": "typo3-cms-extension",
-  "description": "Prometheus integration for TYPO3",
-  "license": "GPL-2.0+",
-  "keywords": ["typo3", "TYPO3 CMS", "prometheus", "metrics"],
+  "license": [
+    "GPL-3.0-or-later"
+  ],
   "authors": [
     {
-      "name": "Simon Schmidt",
-      "email": "typo3@marketing-factory.de",
-      "role": "Lead Developer"
-    },
-    {
-      "name": "Daniel Klockenkämper",
-      "email": "typo3@marketing-factory.de",
-      "role": "Sys Admin"
+      "name": "Christian Spoo",
+      "role": "Developer",
+      "email": "christian.spoo@marketing-factory.de"
     }
   ],
-  "support": {
-    "email": "typo3@marketing-factory.de",
-    "issues": "https://github.com/marketing-factory/typo3_prometheus/issues",
-    "source": "https://github.com/marketing-factory/typo3_prometheus"
-  },
   "require": {
-    "php": ">=5.6, <8.0",
-    "typo3/cms-core": ">=7.6.23,<9.0"
+    "ext-json": "*",
+    "typo3/cms-core": "^12.4 || ^13.4",
+    "promphp/prometheus_client_php": "^2.7"
   },
-
-  "replace": {
-    "prometheus": "self.version",
-    "mfc/prometheus": "self.version"
+  "extra": {
+    "typo3/cms": {
+      "extension-key": "prometheus"
+    }
   },
   "autoload": {
     "psr-4": {
-      "Mfc\\Prometheus\\": "Classes/"
+      "Mfd\\Prometheus\\": "Classes/"
+    }
+  },
+  "replace": {
+    "mfc/prometheus": "*"
+  },
+  "config": {
+    "allow-plugins": {
+      "typo3/cms-composer-installers": true,
+      "typo3/class-alias-loader": true
     }
   }
 }

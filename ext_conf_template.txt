@@ -1,9 +1,2 @@
-	# cat=basic/enable/60; type=string; label=AllowedIpRanges (seperated with comma, range to set with mask (e.g. (127.0.0.1/32))
-allowedIpRanges = 127.0.0.1
-
-	# cat=basic/enable/200; type=boolean; label=EnableBackendModule (enable or disable backend module to integrate Grafana dashboard)
-showAdministrationModule = 0
-
-	# cat=basic/enable/201; type=string; label=DashboardUrl (configure the URL of your Grafana dashboard)
-grafanaDashboardUrl = "https://www.example.org:4433"
-
+# cat=Prometheus; type=string; label=Bearer authorization token to authentication Prometheus scraping requests
+authToken =

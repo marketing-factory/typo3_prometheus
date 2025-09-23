@@ -1,29 +1,16 @@
 <?php
 
-$TYPO3_CONF_VARS['FE']['eID_include']['prometheus_metrics'] = 'EXT:prometheus/Classes/Eid/Metrics.php';
+use TYPO3\CMS\Core\Cache\Backend\TransientMemoryBackend;
 
+if (!defined('TYPO3')) {
+    return;
+}
 
-$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['prometheus']['metricsToMeasure']['fast'] = [
-   \Mfc\Prometheus\Services\Metrics\FeSessionsMetrics::class,
-   \Mfc\Prometheus\Services\Metrics\FeUsersMetrics::class,
-   \Mfc\Prometheus\Services\Metrics\BeSessionsMetrics::class,
-   \Mfc\Prometheus\Services\Metrics\BeUsersMetrics::class,
-   \Mfc\Prometheus\Services\Metrics\SysDomainMetrics::class,
-   \Mfc\Prometheus\Services\Metrics\SysLockedRecordsMetrics::class,
-   \Mfc\Prometheus\Services\Metrics\CfCachePagesMetrics::class,
-   \Mfc\Prometheus\Services\Metrics\CfCachePagesTagsMetrics::class,
-   \Mfc\Prometheus\Services\Metrics\PowermailMetrics::class,
-
-];
-$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['prometheus']['metricsToMeasure']['slow'] = [
-    \Mfc\Prometheus\Services\Metrics\PagesMetrics::class,
-    \Mfc\Prometheus\Services\Metrics\TtContentMetrics::class,
-];
-
-$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['prometheus']['metricsToMeasure']['medium'] = [
-    \Mfc\Prometheus\Services\Metrics\SysLogMetrics::class,
-];
-
-
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['extbase']['commandControllers'][] =
-    \Mfc\Prometheus\Controller\MetricsCommandController::class;
+$boot = static function (): void {
+    $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['prometheus'] ??= [];
+    $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['prometheus']['backend']
+        ??= TransientMemoryBackend::class;
+    $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['prometheus_storage'] ??= [];
+};
+$boot();
+unset($boot);

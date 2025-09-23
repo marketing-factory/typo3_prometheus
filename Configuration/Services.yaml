@@ -1,0 +1,29 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  Mfd\Prometheus\:
+    resource: '../Classes/*'
+    exclude: '../Classes/Domain/Model/*'
+
+  # Register the cache frontends
+  cache.prometheus:
+    class: TYPO3\CMS\Core\Cache\Frontend\FrontendInterface
+    factory: ['@TYPO3\CMS\Core\Cache\CacheManager', 'getCache']
+    arguments: ['prometheus']
+  cache.prometheus_storage:
+    class: TYPO3\CMS\Core\Cache\Frontend\FrontendInterface
+    factory: ['@TYPO3\CMS\Core\Cache\CacheManager', 'getCache']
+    arguments: ['prometheus_storage']
+
+  Mfd\Prometheus\EventListener\:
+    resource: '../Classes/EventListener'
+    tags:
+      - name: event.listener
+
+  Prometheus\RegistryInterface:
+    class: Prometheus\CollectorRegistry
+    arguments: ['@Prometheus\Storage\InMemory']
+  Prometheus\Storage\InMemory: ~
