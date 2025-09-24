@@ -1,6 +1,6 @@
 {
-  "name": "mfd/typo3-prometheus",
-  "type": "typo3-cms-extension",
+  "name": "mfd/typo3-prometheus-vendors",
+  "description": "Vendor libraries for EXT:prometheus",
   "license": [
     "GPL-3.0-or-later"
   ],
@@ -14,25 +14,10 @@
   "require": {
     "php": "^8.1",
     "ext-json": "*",
-    "typo3/cms-core": "^12.4 || ^13.4",
     "promphp/prometheus_client_php": "^2.7"
   },
   "require-dev": {
-    "roave/security-advisories": "dev-latest",
-    "ssch/typo3-rector": "^3.6"
-  },
-  "extra": {
-    "typo3/cms": {
-      "extension-key": "prometheus"
-    }
-  },
-  "autoload": {
-    "psr-4": {
-      "Mfd\\Prometheus\\": "Classes/"
-    }
-  },
-  "replace": {
-    "mfc/prometheus": "*"
+    "roave/security-advisories": "dev-latest"
   },
   "config": {
     "allow-plugins": {
