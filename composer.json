@@ -1,5 +1,6 @@
 {
   "name": "mfd/typo3-prometheus",
+  "description": "Exports Prometheus metrics for TYPO3 instances",
   "type": "typo3-cms-extension",
   "license": [
     "GPL-3.0-or-later"
