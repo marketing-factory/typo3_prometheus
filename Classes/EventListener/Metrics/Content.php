@@ -87,7 +87,7 @@ class Content
             if ($row['value'] === '') {
                 continue;
             }
-            $listTypeGauge->set($row['count'], ['list_ype' => $row['value']]);
+            $listTypeGauge->set($row['count'], ['list_type' => $row['value']]);
         }
     }
 
