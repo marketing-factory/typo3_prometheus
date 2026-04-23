@@ -64,6 +64,31 @@ class Content
             'Total number of currently active content elements'
         );
         $gauge->set($contentCount);
+
+        $ctypeGauge = $event->getRegistry()->getOrRegisterGauge(
+            'typo3',
+            'records_by_ctype',
+            'Number of active (not deleted) records by content type',
+            ['ctype']
+        );
+        $ctypeRows = $this->fetchRowCount('tt_content', 'CType');
+        foreach ($ctypeRows as $row) {
+            $ctypeGauge->set($row['count'], ['ctype' => $row['value']]);
+        }
+
+        $listTypeGauge = $event->getRegistry()->getOrRegisterGauge(
+            'typo3',
+            'records_by_list_type',
+            'Number of active (not deleted) records by list_type',
+            ['ctype']
+        );
+        $listTypeRows = $this->fetchRowCount('tt_content', 'list_type');
+        foreach ($listTypeRows as $row) {
+            if ($row['value'] === '') {
+                continue;
+            }
+            $listTypeGauge->set($row['count'], ['list_ype' => $row['value']]);
+        }
     }
 
     protected function fetchTableCount(string $tableName, bool $onlyVisible = true): int
@@ -134,5 +159,31 @@ class Content
         }
 
         return $value;
+    }
+
+    private function fetchRowCount(string $table, string $column): array
+    {
+        $cacheKey = "row_count-{$table}-{$column}";
+        $rows = $this->cache->get($cacheKey);
+
+        if ($rows === false || !is_array($rows)) {
+            $queryBuilder = $this->connectionPool->getQueryBuilderForTable($table);
+            $queryBuilder->getRestrictions()->removeByType(StartTimeRestriction::class);
+            $queryBuilder->getRestrictions()->removeByType(EndTimeRestriction::class);
+            $queryBuilder->getRestrictions()->removeByType(HiddenRestriction::class);
+
+            $rows = $queryBuilder
+                ->select($column . ' AS value')
+                ->addSelectLiteral('COUNT(*) AS ' . $queryBuilder->quoteIdentifier('count'))
+                ->from($table)
+                ->groupBy($column)
+                ->where($queryBuilder->expr()->isNotNull($column))
+                ->executeQuery()
+                ->fetchAllAssociative();
+
+            $this->cache->set($cacheKey, $rows, ['page_count'], self::COUNT_TTL);
+        }
+
+        return $rows;
     }
 }
