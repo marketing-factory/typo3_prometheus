@@ -13,19 +13,18 @@
     }
   ],
   "require": {
-    "php": "^8.1",
+    "php": "^8.3",
     "ext-json": "*",
-    "typo3/cms-core": "^12.4 || ^13.4 || ^14.2",
+    "typo3/cms-core": "^13.4 || ^14.2 || dev-main",
     "promphp/prometheus_client_php": "^2.7"
   },
   "require-dev": {
-    "roave/security-advisories": "dev-latest",
-    "ssch/typo3-rector": "^3.6"
-  },
-  "extra": {
-    "typo3/cms": {
-      "extension-key": "prometheus"
-    }
+    "ergebnis/composer-normalize": "^2.51",
+    "friendsofphp/php-cs-fixer": "^3.95.1",
+    "phpunit/phpunit": "^11.0 || ^12.0 || ^13.0",
+    "ssch/typo3-rector": "^3.6",
+    "typo3/coding-standards": "^0.8.0",
+    "typo3/testing-framework": "^9.0"
   },
   "autoload": {
     "psr-4": {
@@ -37,8 +36,19 @@
   },
   "config": {
     "allow-plugins": {
-      "typo3/cms-composer-installers": true,
-      "typo3/class-alias-loader": true
+      "ergebnis/composer-normalize": true,
+      "php-http/discovery": true,
+      "typo3/class-alias-loader": true,
+      "typo3/cms-composer-installers": true
+    },
+    "bin-dir": ".Build/bin",
+    "sort-packages": true,
+    "vendor-dir": ".Build/vendor"
+  },
+  "extra": {
+    "typo3/cms": {
+      "extension-key": "prometheus",
+      "web-dir": ".Build/public"
     }
   }
 }
