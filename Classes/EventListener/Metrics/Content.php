@@ -24,8 +24,7 @@ class Content
         #[Autowire(service: 'cache.prometheus')]
         private readonly FrontendInterface $cache,
         private readonly ConnectionPool $connectionPool,
-    ) {
-    }
+    ) {}
 
     public function __invoke(MetricsCollectingEvent $event): void
     {
@@ -99,7 +98,6 @@ class Content
         if ($value === false || !is_numeric($value)) {
             $queryBuilder = $this->connectionPool->getQueryBuilderForTable($tableName);
 
-
             if (!$onlyVisible) {
                 $queryBuilder->getRestrictions()->removeByType(StartTimeRestriction::class);
                 $queryBuilder->getRestrictions()->removeByType(EndTimeRestriction::class);
@@ -116,7 +114,7 @@ class Content
                 ->fetchOne();
 
             $value = (int)$count;
-            $this->cache->set($cacheKey, $value, ["table_count"], self::COUNT_TTL);
+            $this->cache->set($cacheKey, $value, ['table_count'], self::COUNT_TTL);
         }
 
         return $value;
@@ -163,7 +161,7 @@ class Content
 
     private function fetchRowCount(string $table, string $column): array
     {
-        $cacheKey = "row_count-{$table}-{$column}";
+        $cacheKey = sprintf('row_count-%s-%s', $table, $column);
         $rows = $this->cache->get($cacheKey);
 
         if ($rows === false || !is_array($rows)) {

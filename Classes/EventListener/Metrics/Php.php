@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mfd\Prometheus\EventListener\Metrics;
 
 use Mfd\Prometheus\Event\MetricsCollectingEvent;

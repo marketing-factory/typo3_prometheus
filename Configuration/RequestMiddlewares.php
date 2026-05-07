@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Mfd\Prometheus\Middleware\MetricsHandler;
 
 return [

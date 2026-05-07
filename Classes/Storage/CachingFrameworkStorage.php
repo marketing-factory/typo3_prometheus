@@ -9,7 +9,6 @@ use Prometheus\Math;
 use Prometheus\MetricFamilySamples;
 use Prometheus\Storage\Adapter;
 use Prometheus\Summary;
-use RuntimeException;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
 
@@ -21,8 +20,7 @@ readonly class CachingFrameworkStorage implements Adapter
     public function __construct(
         #[Autowire(service: 'cache.prometheus_storage')]
         private FrontendInterface $cacheStorage
-    ) {
-    }
+    ) {}
 
     public function collect(bool $sortMetrics = true): array
     {
@@ -62,7 +60,7 @@ readonly class CachingFrameworkStorage implements Adapter
 
             $histogramBuckets = [];
             foreach ($histogram['samples'] as $key => $value) {
-                $parts = explode(':', (string) $key);
+                $parts = explode(':', (string)$key);
                 $labelValues = $parts[2];
                 $bucket = $parts[3];
                 // Key by labelValues
@@ -128,7 +126,7 @@ readonly class CachingFrameworkStorage implements Adapter
     {
         $math = new Math();
         $output = [];
-        foreach ($summaries as $metaKey => &$summary) {
+        foreach ($summaries as &$summary) {
             $metaData = $summary['meta'];
             $data = [
                 'name' => $metaData['name'],
@@ -141,7 +139,7 @@ readonly class CachingFrameworkStorage implements Adapter
             ];
 
             foreach ($summary['samples'] as $key => $values) {
-                $parts = explode(':', (string) $key);
+                $parts = explode(':', (string)$key);
                 $labelValues = $parts[2];
                 $decodedLabelValues = $this->decodeLabelValues($labelValues);
 
@@ -157,7 +155,7 @@ readonly class CachingFrameworkStorage implements Adapter
                 }
 
                 // Compute quantiles
-                usort($values, static fn(array $value1, array $value2) => $value1['value'] <=> $value2['value']);
+                usort($values, static fn(array $value1, array $value2): int => $value1['value'] <=> $value2['value']);
 
                 foreach ($data['quantiles'] as $quantile) {
                     $data['samples'][] = [
@@ -214,7 +212,7 @@ readonly class CachingFrameworkStorage implements Adapter
                 'samples' => [],
             ];
             foreach ($metric['samples'] as $key => $value) {
-                $parts = explode(':', (string) $key);
+                $parts = explode(':', (string)$key);
                 $labelValues = $parts[2];
                 $data['samples'][] = [
                     'name' => $metaData['name'],
@@ -253,7 +251,6 @@ readonly class CachingFrameworkStorage implements Adapter
         }
 
         $histograms[$metaKey]['samples'][$sumKey] += $data['value'];
-
 
         $bucketToIncrease = '+Inf';
         foreach ($data['buckets'] as $bucket) {
@@ -373,7 +370,7 @@ readonly class CachingFrameworkStorage implements Adapter
         return implode(':', [
             $data['type'],
             $data['name'],
-            'meta'
+            'meta',
         ]);
     }
 
@@ -383,7 +380,7 @@ readonly class CachingFrameworkStorage implements Adapter
             $data['type'],
             $data['name'],
             $this->encodeLabelValues($data['labelValues']),
-            'value'
+            'value',
         ]);
     }
 
@@ -396,9 +393,9 @@ readonly class CachingFrameworkStorage implements Adapter
 
     protected function sortSamples(array &$samples): void
     {
-        usort($samples, static fn($a, $b): int => strcmp(
-            implode("", $a['labelValues']),
-            implode("", $b['labelValues'])
+        usort($samples, static fn(array $a, array $b): int => strcmp(
+            implode('', $a['labelValues']),
+            implode('', $b['labelValues'])
         ));
     }
 
@@ -411,12 +408,10 @@ readonly class CachingFrameworkStorage implements Adapter
     protected function decodeLabelValues(string $values): array
     {
         $json = base64_decode($values, true);
-        if (false === $json) {
-            throw new RuntimeException('Cannot base64 decode label values');
+        if ($json === false) {
+            throw new \RuntimeException('Cannot base64 decode label values', 3953777156);
         }
-
-        $decodedValues = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
-        return $decodedValues;
+        return json_decode($json, true, 512, JSON_THROW_ON_ERROR);
     }
 
     protected function fetch(string $type): array

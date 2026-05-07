@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mfd\Prometheus\EventListener\Metrics;
 
 use Mfd\Prometheus\Event\MetricsCollectingEvent;
@@ -10,9 +12,7 @@ use TYPO3\CMS\Core\Information\Typo3Version;
 #[AsEventListener]
 readonly class Typo3VersionInfo
 {
-    public function __construct(private Typo3Version $typo3Version)
-    {
-    }
+    public function __construct(private Typo3Version $typo3Version) {}
 
     public function __invoke(MetricsCollectingEvent $event): void
     {
@@ -25,7 +25,7 @@ readonly class Typo3VersionInfo
 
         $gauge->set(1, [
             $this->typo3Version->getVersion(),
-            Environment::getContext()->__toString()
+            Environment::getContext()->__toString(),
         ]);
     }
 }

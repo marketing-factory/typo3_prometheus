@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Mfd\Prometheus;
 
 use TYPO3\CMS\Core\Core\Environment;
@@ -16,7 +18,7 @@ final class Extension
 
         if (file_exists($vendorPhar)) {
             $vendorPhar = realpath($vendorPhar);
-            require_once "phar://{$vendorPhar}/vendor/autoload.php";
+            require_once sprintf('phar://%s/vendor/autoload.php', $vendorPhar);
         }
     }
 }

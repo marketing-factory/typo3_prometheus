@@ -9,9 +9,7 @@ use TYPO3\CMS\Core\Registry;
 #[AsEventListener]
 readonly class Typo3Scheduler
 {
-    public function __construct(private Registry $registry)
-    {
-    }
+    public function __construct(private Registry $registry) {}
 
     public function __invoke(MetricsCollectingEvent $event): void
     {

@@ -14,8 +14,7 @@ readonly class MetricsCollector
     public function __construct(
         private RegistryInterface $registry,
         private EventDispatcherInterface $eventDispatcher,
-    ) {
-    }
+    ) {}
 
     public function collectMetrics(): string
     {

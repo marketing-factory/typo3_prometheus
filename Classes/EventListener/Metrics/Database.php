@@ -17,8 +17,7 @@ readonly class Database
         #[Autowire(service: 'cache.prometheus')]
         private FrontendInterface $cache,
         private ConnectionPool $connectionPool
-    ) {
-    }
+    ) {}
 
     public function __invoke(MetricsCollectingEvent $event): void
     {
@@ -59,7 +58,7 @@ readonly class Database
                 ->fetchOne();
 
             $value = (int)$count;
-            $this->cache->set($cacheKey, $value, ["table_count"], self::TABLE_COUNT_TTL);
+            $this->cache->set($cacheKey, $value, ['table_count'], self::TABLE_COUNT_TTL);
         }
 
         return $value;
@@ -83,11 +82,11 @@ readonly class Database
                     ->fetchOne();
 
                 $value = (int)$count;
-                $this->cache->set($cacheKey, $value, ["table_count"], self::TABLE_COUNT_TTL);
+                $this->cache->set($cacheKey, $value, ['table_count'], self::TABLE_COUNT_TTL);
             } catch (InvalidFieldNameException) {
                 // Table does not have a deleted column
                 $value = 0;
-                $this->cache->set($cacheKey, $value, ["table_count"]);
+                $this->cache->set($cacheKey, $value, ['table_count']);
             }
         }
 
@@ -103,7 +102,7 @@ readonly class Database
             $schemaManager = $this->connectionPool->getConnectionForTable('pages')->createSchemaManager();
             $value = $schemaManager->listTableNames();
 
-            $this->cache->set($cacheKey, $value, ["table_names"], self::TABLE_NAMES_TTL);
+            $this->cache->set($cacheKey, $value, ['table_names'], self::TABLE_NAMES_TTL);
         }
 
         return $value;
