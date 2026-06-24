@@ -12,16 +12,18 @@ class Php
 {
     public function __invoke(MetricsCollectingEvent $event): void
     {
+        $registry = $event->getRegistry();
+
         // Memory usage metrics
-        $gauge = $event->getRegistry()->getOrRegisterGauge(
-            'typo3',
+        $gauge = $registry->getOrRegisterGauge(
+            'php',
             'memory_usage_bytes',
             'Current memory usage in bytes'
         );
         $gauge->set(memory_get_usage(true));
 
-        $gauge = $event->getRegistry()->getOrRegisterGauge(
-            'typo3',
+        $gauge = $registry->getOrRegisterGauge(
+            'php',
             'memory_peak_usage_bytes',
             'Peak memory usage in bytes'
         );
