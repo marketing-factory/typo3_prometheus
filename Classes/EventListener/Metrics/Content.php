@@ -14,6 +14,7 @@ use TYPO3\CMS\Core\Database\Query\Restriction\HiddenRestriction;
 use TYPO3\CMS\Core\Database\Query\Restriction\StartTimeRestriction;
 use TYPO3\CMS\Core\Database\Query\Restriction\WorkspaceRestriction;
 use TYPO3\CMS\Core\Domain\Repository\PageRepository;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 #[AsEventListener]
 class Content
@@ -75,18 +76,22 @@ class Content
             $ctypeGauge->set($row['count'], ['ctype' => $row['value']]);
         }
 
-        $listTypeGauge = $event->getRegistry()->getOrRegisterGauge(
-            'typo3',
-            'records_by_list_type',
-            'Number of active (not deleted) records by list_type',
-            ['ctype']
-        );
-        $listTypeRows = $this->fetchRowCount('tt_content', 'list_type');
-        foreach ($listTypeRows as $row) {
-            if ($row['value'] === '') {
-                continue;
+        // Only collect list_type metrics for TYPO3 < 14
+        // In TYPO3 14+, list_type field has been removed
+        if (VersionNumberUtility::convertVersionNumberToInteger(VersionNumberUtility::getNumericTypo3Version()) < 14000000) {
+            $listTypeGauge = $event->getRegistry()->getOrRegisterGauge(
+                'typo3',
+                'records_by_list_type',
+                'Number of active (not deleted) records by list_type',
+                ['ctype']
+            );
+            $listTypeRows = $this->fetchRowCount('tt_content', 'list_type');
+            foreach ($listTypeRows as $row) {
+                if ($row['value'] === '') {
+                    continue;
+                }
+                $listTypeGauge->set($row['count'], ['list_type' => $row['value']]);
             }
-            $listTypeGauge->set($row['count'], ['list_type' => $row['value']]);
         }
     }
 
